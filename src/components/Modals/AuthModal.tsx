@@ -35,20 +35,20 @@ const AuthModal:React.FC<AuthModalProps> = () => {
 }
 export default AuthModal;
 
-function useCloseModal(){
-    const setAuthModal = useSetRecoilState(authModalState)
+function useCloseModal() {
+	const setAuthModal = useSetRecoilState(authModalState);
 
-    const closeModal = () => {
-        setAuthModal((prev) => ({...prev, isOpen:false, type:'login'}));
-    }
+	const closeModal = () => {
+		setAuthModal((prev) => ({ ...prev, isOpen: false, type: "login" }));
+	};
 
-    useEffect(() =>{
-        const handleEsc = (e: KeyboardEvent) => {
-            if(e.key === "Escape") closeModal();
-        };
-        window.addEventListener("keydown", handleEsc);
-        return () => window.removeEventListener("keydown", handleEsc);
-    }, []);
+	useEffect(() => {
+		const handleEsc = (e: KeyboardEvent) => {
+			if (e.key === "Escape") closeModal();
+		};
+		window.addEventListener("keydown", handleEsc);
+		return () => window.removeEventListener("keydown", handleEsc);
+	}, []);
 
-    return closeModal;
+	return closeModal;
 }
