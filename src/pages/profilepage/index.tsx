@@ -19,7 +19,6 @@ type ProfilePageProps = {
 const ProfilePage:React.FC<ProfilePageProps> = () => {
     const router = useRouter();
     let [displayArray, setDisplayArray] = useState<string[]>([]);
-    console.count("useGetUserInfo");
     const {user, userData} = useGetUserInfo();
     const [currentUserData, setCurrentUserData] = useState<IUserData>(userData);
     const problems = useGetProblemInfo();
