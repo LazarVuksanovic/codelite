@@ -5,6 +5,7 @@ CodeLite is a web application designed to enhance your coding skills through pra
 ## Technologies Used
 
 - **React:** Build interactive user interfaces with the popular JavaScript library.
+- **Next.js:** Create optimized and server-rendered React applications for improved performance.
 - **TypeScript:** Enhance code quality and maintainability using statically typed JavaScript.
 - **Tailwind CSS:** Create stylish and responsive designs with a utility-first CSS framework.
 - **Firebase:** Leverage Firebase for secure authentication, real-time database, and data storage.
