@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import testSubmittedCode from '@/utils/apicalls/compilerApiCall';
+import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
 
 type PlaygroundProps = {
     problem:Problem
@@ -28,6 +29,16 @@ export interface ISettings{
 }
 
 const Playground:React.FC<PlaygroundProps> = ({problem, setSucces, setSolved}) => {
+    loader.init().then((monaco) => {
+        monaco.editor.defineTheme('myTheme', {
+            base: 'vs-dark',
+            inherit: true,
+            rules: [],
+            colors: {
+                'editor.background': '#ffffff24',
+            },
+        });
+    });
     const [activeTestCaseId, setActiveTestCaseId] = useState<number>(0);
     let [userCode, setUserCode] = useState<string>(problem.starterCode);
 
@@ -125,6 +136,13 @@ const Playground:React.FC<PlaygroundProps> = ({problem, setSucces, setSolved}) =
                         extensions={[javascript()]}
                         style={{fontSize: settings.fontSize}}
                     />
+                    {/* <Editor
+                        height="100vh"
+                        theme='vs-dark'
+                        defaultLanguage="javascript"
+                        defaultValue={userCode}
+                        // onMount={handleEditorDidMount}
+                    /> */}
                 </div>
                 <div className='w-full px-5 overflow-auto'>
                     {/* testcase heading */}
