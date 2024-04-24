@@ -21,9 +21,10 @@ export const jumpGameHandler = (fn: any) => {
 	}
 };
 
-const starterCodeJumpGameJS = `function canJump(nums) {
+const starterCodeJumpGameJS =
+`function canJump(nums) {
   // Write your code here
-};`;
+};`
 
 export const jumpGame: Problem = {
 	id: "jump-game",

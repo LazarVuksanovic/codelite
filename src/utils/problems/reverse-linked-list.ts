@@ -64,7 +64,7 @@ function getListValues(head: LinkedList): number[] {
 	return values;
 }
 
-const starterCodeReverseLinkedListJS = `
+const starterCodeReverseLinkedListJS =`
 /**
  * Definition for singly-linked list.
  * function ListNode(val, next) {
@@ -75,7 +75,7 @@ const starterCodeReverseLinkedListJS = `
 // Do not edit function name
 function reverseLinkedList(head) {
   // Write your code here
-};`;
+};`
 
 export const reverseLinkedList: Problem = {
 	id: "reverse-linked-list",

@@ -34,10 +34,10 @@ export const search2DMatrixHandler = (fn: any) => {
 		throw new Error(error);
 	}
 };
-const starterCodeSearch2DMatrixJS = `// Do not edit function name
+const starterCodeSearch2DMatrixJS =`// Do not edit function name
 function searchMatrix(matrix, target) {
   // Write your code here
-};`;
+};`
 
 export const search2DMatrix: Problem = {
 	id: "search-a-2d-matrix",
