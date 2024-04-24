@@ -13,6 +13,7 @@ import { problems } from '@/utils/problems';
 import { useRouter } from 'next/router';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import useLocalStorage from '@/hooks/useLocalStorage';
+import testSubmittedCode from '@/utils/apicalls/compilerApiCall';
 
 type PlaygroundProps = {
     problem:Problem
@@ -49,6 +50,8 @@ const Playground:React.FC<PlaygroundProps> = ({problem, setSucces, setSolved}) =
             });
             return
         }
+        // userCode = userCode.slice(userCode.indexOf(problem.starterFunctionName));
+        // testSubmittedCode(userCode, problems[pid as string], python)
         try{
             userCode = userCode.slice(userCode.indexOf(problem.starterFunctionName));
             const cb = new Function(`return ${userCode}`)();
