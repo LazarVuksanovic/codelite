@@ -15,9 +15,15 @@ export type Problem = {
 	constraints: string;
 	order: number;
 	starterCode: string;
-	handlerFunction: ((fn: any) => boolean) | string;
+	handlerFunction: ((userCode: string, problem: Problem) => string) | any;
 	starterFunctionName: string;
+	testCases: TestCase[]
 };
+
+export type TestCase = {
+	args: string,
+	answer: string
+}
 
 export type DBProblem = {
 	id: string;

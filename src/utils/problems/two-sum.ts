@@ -1,40 +1,31 @@
 import assert from "assert";
-import { Problem } from "../types/problem";
+import { Problem, TestCase } from "../types/problem";
 
 const starterCodeTwoSum =`function twoSum(nums,target){
 		// Write your code here
 	  };`
 
 
-
-// checks if the user has the correct code
-const handlerTwoSum = (fn: any) => {
-	// fn is the callback that user's code is passed into
-	try {
-		const nums = [
-			[2, 7, 11, 15],
-			[3, 2, 4],
-			[3, 3],
-		];
-
-		const targets = [9, 6, 6];
-		const answers = [
-			[0, 1],
-			[1, 2],
-			[0, 1],
-		];
-
-		// loop all tests to check if the user's code is correct
-		for (let i = 0; i < nums.length; i++) {
-			// result is the output of the user's function and answer is the expected output
-			const result = fn(nums[i], targets[i]);
-			assert.deepStrictEqual(result, answers[i]);
-		}
-		return true;
-	} catch (error: any) {
-		console.log("twoSum handler function error");
-		throw new Error(error);
+const testCases: TestCase[] = [
+	{
+		args: '[2, 7, 11, 15], 9',
+		answer: '[0, 1]'
+	},
+	{
+		args: '[3, 2, 4], 6',
+		answer: '[1, 2]'
+	},
+	{
+		args: '[3, 3], 6',
+		answer: '[0, 1]'
 	}
+]
+// checks if the user has the correct code
+const handlerTwoSum = (userCode: string, problem: Problem): string => {
+	problem.testCases.forEach(testCase => {
+		userCode += `\nconsole.log(${problem.starterFunctionName}(${testCase.args}).toString() === ${testCase.answer}.toString())`
+	});
+	return userCode
 };
 
 export const twoSum: Problem = {
@@ -82,4 +73,5 @@ export const twoSum: Problem = {
 	starterCode: starterCodeTwoSum,
 	order: 1,
 	starterFunctionName: "twoSum",
+	testCases: testCases
 };

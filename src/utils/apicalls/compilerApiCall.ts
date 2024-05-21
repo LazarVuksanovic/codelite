@@ -3,15 +3,15 @@ import { Problem } from '../types/problem';
 
 
 
-const testSubmittedCode = async (userCode: String, problem:Problem, lang:string) => {
-  // userCode += "\nconsole.log(twoSum([2,7,11,15], 9).toString() === [0,1].toString())"
-  const options = {
+const testSubmittedCode = async (userCode: string, problem:Problem, lang:string = "nodejs") => {
+  userCode = problem.handlerFunction(userCode, problem)
+  const compileApi = {
         method: 'POST',
-        url: 'https://online-code-compiler.p.rapidapi.com/v1/',
+        url: process.env.NEXT_PUBLIC_RAPIDAPI_COMPILER_URL,
         headers: {
           'content-type': 'application/json',
           'X-RapidAPI-Key': process.env.NEXT_PUBLIC_RAPIDAPI_KEY,
-          'X-RapidAPI-Host': 'online-code-compiler.p.rapidapi.com'
+          'X-RapidAPI-Host': process.env.NEXT_PUBLIC_RAPIDAPI_HOST
         },
         data: {
           language: lang,
@@ -19,14 +19,15 @@ const testSubmittedCode = async (userCode: String, problem:Problem, lang:string)
           code: userCode,
           input: null
         }
-      };
+  };
       
-      try {
-          const response = await axios.request(options);
-          console.log(response.data);
-      } catch (error) {
-          console.error(error);
-      }
+  try {
+    const response = await axios.request(compileApi);
+    return !(response.data.output.includes("false") || response.data.output.includes("/home/application.js:"));
+  } catch (error) {
+    console.error(error);
+    return false
+  }
 }
 
 export default testSubmittedCode

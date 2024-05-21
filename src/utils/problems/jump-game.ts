@@ -1,24 +1,30 @@
 import assert from "assert";
-import { Problem } from "../types/problem";
+import { Problem, TestCase } from "../types/problem";
 
-export const jumpGameHandler = (fn: any) => {
-	try {
-		const tests = [
-			[2, 3, 1, 1, 4],
-			[3, 2, 1, 0, 4],
-			[2, 0, 0],
-			[2, 5, 0, 0],
-		];
-		const answers = [true, false, true, true];
-		for (let i = 0; i < tests.length; i++) {
-			const result = fn(tests[i]);
-			assert.equal(result, answers[i]);
-		}
-		return true;
-	} catch (error: any) {
-		console.log("Error from jumpGameHandler: ", error);
-		throw new Error(error);
-	}
+const testCases: TestCase[] = [
+	{
+		args: '[2, 3, 1, 1, 4]',
+		answer: 'true'
+	},
+	{
+		args: '[3, 2, 1, 0, 4]',
+		answer: 'false'
+	},
+	{
+		args: '[2, 0, 0]',
+		answer: 'true'
+	},
+	{
+		args: '[2, 5, 0, 0]',
+		answer: 'true'
+	},
+]
+
+export const jumpGameHandler = (userCode: string, problem: Problem): string => {
+	problem.testCases.forEach(testCase => {
+		userCode += `\nconsole.log(${problem.starterFunctionName}(${testCase.args}).toString() === ${testCase.answer}.toString())`
+	});
+	return userCode
 };
 
 const starterCodeJumpGameJS =
@@ -57,6 +63,7 @@ export const jumpGame: Problem = {
     <li class='mt-2'><code>0 <= nums[i] <= 10^5</code></li>`,
 	starterCode: starterCodeJumpGameJS,
 	handlerFunction: jumpGameHandler,
-	starterFunctionName: "function canJump(",
+	starterFunctionName: "canJump",
 	order: 3,
+	testCases: testCases
 };

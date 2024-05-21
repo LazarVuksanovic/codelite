@@ -61,52 +61,35 @@ const Playground:React.FC<PlaygroundProps> = ({problem, setSucces, setSolved}) =
             });
             return
         }
-        // userCode = userCode.slice(userCode.indexOf(problem.starterFunctionName));
-        // testSubmittedCode(userCode, problems[pid as string], python)
-        try{
-            userCode = userCode.slice(userCode.indexOf(problem.starterFunctionName));
-            const cb = new Function(`return ${userCode}`)();
-            const handler = problems[pid as string].handlerFunction;
-            if(typeof handler === "function"){
-                const success = handler(cb);
-                if(success){
-                    toast.success("Congrats! All tests passed!", {
-                        position:"top-center",
-                        autoClose: 3000,
-                        theme: "dark"
-                    });
-                    setSucces(true);
-                    setTimeout(() => {setSucces(false)}, 4000);
 
-                    const newSolution: Solution = {
-                        id: problem.id,
-                        code: userCode
-                    }
-                    
-                    const userRef = doc(firestore, "users", user.uid);
-                    await updateDoc(userRef, {
-                        solvedProblems: arrayUnion(pid),
-                        solutions: arrayUnion(newSolution)
-                    });
-                    setSolved(true);
-                }
+        const success: boolean = await testSubmittedCode(userCode, problems[pid as string])
+        if(success){
+            toast.success("Congrats! All tests passed!", {
+                position: "top-center",
+                autoClose: 3000,
+                theme: "dark"
+            });
+            setSucces(true);
+            setTimeout(() => { setSucces(false) }, 4000);
+
+            const newSolution: Solution = {
+                id: problem.id,
+                code: userCode
             }
+
+            const userRef = doc(firestore, "users", user.uid);
+            await updateDoc(userRef, {
+                solvedProblems: arrayUnion(pid),
+                solutions: arrayUnion(newSolution)
+            });
+            setSolved(true);
         }
-        catch(error: any){
-            if(error.message.startsWith("AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:")){
-                toast.error("Opss! One or more test cases failed", {
-                    position:"top-center",
-                    autoClose: 3000,
-                    theme: "dark"
-                });
-            }
-            else {
-                toast.error(error.message, {
-                    position:"top-center",
-                    autoClose: 3000,
-                    theme: "dark"
-                })
-            }
+        else {
+            toast.error("Not working :(", {
+                position: "top-center",
+                autoClose: 3000,
+                theme: "dark"
+            })
         }
     };
 

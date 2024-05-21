@@ -1,19 +1,34 @@
 import assert from "assert";
-import { Problem } from "../types/problem";
+import { Problem, TestCase } from "../types/problem";
 
-export const validParenthesesHandler = (fn: any) => {
-	try {
-		const tests = ["()", "()[]{}", "(]", "([)]", "{[]}"];
-		const answers = [true, true, false, false, true];
-		for (let i = 0; i < tests.length; i++) {
-			const result = fn(tests[i]);
-			assert.deepEqual(result, answers[i]);
-		}
-		return true;
-	} catch (error: any) {
-		console.error("Error from validParenthesesHandler: ", error);
-		throw new Error(error);
-	}
+const testCases: TestCase[] = [
+	{
+		args: '"()"',
+		answer: 'true'
+	},
+	{
+		args: '"()[]{}"',
+		answer: 'true'
+	},
+	{
+		args: '"(]"',
+		answer: 'false'
+	},
+	{
+		args: '"([)]"',
+		answer: 'false'
+	},
+	{
+		args: '"{[]}"',
+		answer: 'true'
+	},
+]
+
+export const validParenthesesHandler = (userCode: string, problem: Problem) => {
+	problem.testCases.forEach(testCase => {
+		userCode += `\nconsole.log(${problem.starterFunctionName}(${testCase.args}).toString() === ${testCase.answer}.toString())`
+	});
+	return userCode
 };
 
 const starterCodeValidParenthesesJS = `function validParentheses(s) {
@@ -52,6 +67,7 @@ export const validParentheses: Problem = {
 <li class='mt-2 '><code>s</code> consists of parentheses only <code class="text-md">'()[]{}'</code>.</li>`,
 	handlerFunction: validParenthesesHandler,
 	starterCode: starterCodeValidParenthesesJS,
-	starterFunctionName: "function validParentheses(",
+	starterFunctionName: "validParentheses",
 	order: 4,
+	testCases: testCases
 };

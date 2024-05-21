@@ -1,48 +1,29 @@
 import assert from "assert";
-import { Problem } from "../types/problem";
+import { Problem, TestCase } from "../types/problem";
 import example from "./images/reverseLL.jpg";
 
 // JS doesn't have a built in LinkedList class, so we'll create one
-class LinkedList {
-	value: number;
-	next: LinkedList | null;
-
-	constructor(value: number) {
+const helperCode = `class LinkedList {
+	constructor(value) {
 		this.value = value;
 		this.next = null;
 	}
 
-	reverse(): LinkedList {
-		let current: LinkedList | null = this;
-		let prev: LinkedList | null = null;
+	reverse() {
+		let current = this;
+		let prev = null;
 		while (current !== null) {
-			const next = current.next as LinkedList;
+			const next = current.next;
 			current.next = prev;
 			prev = current;
 			current = next;
 		}
-		return prev!;
+		return prev;
 	}
 }
 
-export const reverseLinkedListHandler = (fn: any) => {
-	try {
-		const tests = [[1, 2, 3, 4, 5], [5, 4, 3, 2, 1], [1, 2, 3], [1]];
-		const answers = [[5, 4, 3, 2, 1], [1, 2, 3, 4, 5], [3, 2, 1], [1]];
-		for (let i = 0; i < tests.length; i++) {
-			const list = createLinkedList(tests[i]);
-			const result = fn(list);
-			assert.deepEqual(getListValues(result), answers[i]);
-		}
-		return true;
-	} catch (error: any) {
-		console.log("Error from reverseLinkedListHandler: ", error);
-		throw new Error(error);
-	}
-};
-
 // it creates a linked list from an array
-function createLinkedList(values: number[]): LinkedList {
+function createLinkedList(values) {
 	const head = new LinkedList(values[0]);
 	let current = head;
 	for (let i = 1; i < values.length; i++) {
@@ -54,15 +35,42 @@ function createLinkedList(values: number[]): LinkedList {
 }
 
 // it returns an array of values from a linked list
-function getListValues(head: LinkedList): number[] {
+function getListValues(head) {
 	const values = [];
-	let current: LinkedList | null = head;
+	let current = head;
 	while (current !== null) {
 		values.push(current.value);
 		current = current.next;
 	}
 	return values;
-}
+}`
+
+const testCases: TestCase[] = [
+	{
+		args: '[1, 2, 3, 4, 5]',
+		answer: '[5, 4, 3, 2, 1]'
+	},
+	{
+		args: '[5, 4, 3, 2, 1]',
+		answer: '[1, 2, 3, 4, 5]'
+	},
+	{
+		args: '[1, 2, 3]',
+		answer: '[3, 2, 1]'
+	},
+	{
+		args: '[1]',
+		answer: '[1]'
+	}
+]
+
+export const reverseLinkedListHandler = (userCode: string, problem: Problem): string => {
+	userCode = helperCode + userCode
+	problem.testCases.forEach(testCase => {
+		userCode += `\nconsole.log(getListValues(${problem.starterFunctionName}(createLinkedList(${testCase.args}))).toString() === ${testCase.answer}.toString())`
+	});
+	return userCode
+};
 
 const starterCodeReverseLinkedListJS =`
 /**
@@ -104,6 +112,7 @@ export const reverseLinkedList: Problem = {
 <li class='mt-2'><code>-5000 <= Node.val <= 5000</code></li>`,
 	starterCode: starterCodeReverseLinkedListJS,
 	handlerFunction: reverseLinkedListHandler,
-	starterFunctionName: "function reverseLinkedList(",
+	starterFunctionName: "reverseLinkedList",
 	order: 2,
+	testCases: testCases
 };
