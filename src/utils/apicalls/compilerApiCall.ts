@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Problem } from '../types/problem';
+import { CompilerResponse, Problem } from '../types/problem';
 
 
 
@@ -23,11 +23,22 @@ const testSubmittedCode = async (userCode: string, problem:Problem, lang:string 
       
   try {
     const response = await axios.request(compileApi);
-    return !(response.data.output.includes("false") || response.data.output.includes("/home/application.js:"));
+    const compilerResponse: CompilerResponse = {
+      success: !(response.data.output.includes("false") || response.data.output.includes("/home/application.js:")),
+      message: response.data.output,
+      cpuTime: response.data.cpuTime
+    }
+    return compilerResponse
   } catch (error) {
     console.error(error);
-    return false
   }
+
+  const compilerResponse: CompilerResponse = {
+    success: false,
+    message: "Error",
+    cpuTime: "0"
+  }
+  return compilerResponse
 }
 
 export default testSubmittedCode

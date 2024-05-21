@@ -41,3 +41,9 @@ export type Solution = {
 	id: string;
 	code: string;
 }
+
+export type CompilerResponse = {
+	success: boolean,
+	message: string,
+	cpuTime: string
+}
