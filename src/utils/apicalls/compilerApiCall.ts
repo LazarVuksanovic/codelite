@@ -23,6 +23,7 @@ const testSubmittedCode = async (userCode: string, problem:Problem, lang:string 
       
   try {
     const response = await axios.request(compileApi);
+    // console.log(response.data)
     const compilerResponse: CompilerResponse = {
       success: !(response.data.output.includes("false") || response.data.output.includes("/home/application.js:")),
       message: response.data.output,
@@ -35,7 +36,7 @@ const testSubmittedCode = async (userCode: string, problem:Problem, lang:string 
 
   const compilerResponse: CompilerResponse = {
     success: false,
-    message: "Error",
+    message: "Error!",
     cpuTime: "0"
   }
   return compilerResponse

@@ -131,7 +131,7 @@ const ProfilePage:React.FC<ProfilePageProps> = () => {
                         {problems.filter((problem) => solvedProblems.includes(problem.id)).length === 0 ? (
                             <p className='text-center text-white'>Try to solve something first</p>
                         ) : (
-                            <table className='table-auto mx-5 rounded border-b'>
+                            <table className='table-auto mx-5 rounded border-b mb-5'>
                                 <thead className="text-sm text-gray-700 dark:text-gray-400 border-b">
                                     <tr>
                                         <th scope="col" className="px-6 py-3 w-0 font-medium text-left">Title</th>
